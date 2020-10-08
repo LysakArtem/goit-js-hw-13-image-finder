@@ -24,6 +24,7 @@ const debounceInputCallback = debounce(event => {
         servise.fethcArticles().then(data=>{
             imagesListRef.innerHTML = '';
             renderMarkup(data);
+            heightScroll = document.documentElement.offsetHeight;
             if(data.total===0 || servise.remainingArticles <= 12){
                 BtnloadMoreRef.classList.add('is-hidden');
             }
@@ -37,17 +38,18 @@ const debounceInputCallback = debounce(event => {
         BtnloadMoreRef.classList.add('is-hidden');
         // return;- оставил, потому что будет вопрос(чтоб не забыть!)
     };
-}, 0);
-
+}, 500);
+let heightScroll = document.documentElement.offsetHeight;//
 inputRef.addEventListener('input', debounceInputCallback);
 BtnloadMoreRef.addEventListener('click', ()=>{
     servise.fethcArticles().then(data=>{
         renderMarkup(data);
         console.dir(document.documentElement.offsetHeight);
         window.scrollTo({
-            top: 500,   //Тоже вопрос!
+            top: heightScroll -70,   //Тоже вопрос!
             behavior: 'smooth'
         })
+        heightScroll = document.documentElement.offsetHeight
         if(servise.remainingArticles <= 12){
             BtnloadMoreRef.classList.add('is-hidden');
         }
