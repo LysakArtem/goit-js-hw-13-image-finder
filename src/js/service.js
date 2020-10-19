@@ -4,28 +4,23 @@ export default {
     inputValue: '',
     page: 1, 
     remainingArticles: null,
-    fethcArticles(){
+    fetchArticles(){
         const url = `https://pixabay.com/api/?image_type=photo&orientation=horizontal&q=${this.inputValue}&page=${this.page}&per_page=12&key=${apiKey}`;
-        console.log(url);
         return fetch(url)
-            .then(res=>{
-                return res.json()
-            })
-            .then(data=>{
-                console.log(this.page);
-                this.remainingArticles = data.total - 12*(this.page-1);
-                console.log(this.remainingArticles);
-                this.page +=1;
+            .then(res => res.json())
+            .then(data => {
+                this.remainingArticles = data.total - 12 * (this.page);
+                this.page += 1;
                 return data;
             });
     },
     resetPage() {
         return this.page = 1;
     },
-    get querry() {
+    get query() {
         return this.inputValue;
     },
-    set querry(value) {
+    set query(value) {
         return this.inputValue = value;
     }     
 };
